@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0m34u6f" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn2:collaboration id="Collaboration_0w4q03w">
+    <bpmn2:participant id="Participant_Applicant" name="Driving License Renewal Process&#10;Applicant" processRef="Process_DrivingLicenseRenewal" />
+  </bpmn2:collaboration>
+  <bpmn2:process id="Process_DrivingLicenseRenewal" name="Driving License Renewal Process" isExecutable="true">
+    <bpmn2:laneSet id="LaneSet_199209x">
+      <bpmn2:lane id="Lane_Applicant" name="Applicant">
+        <bpmn2:flowNodeRef>StartEvent_ApplicationInitiated_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_SubmitApplication_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>EndEvent_LicenseReceived_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="Lane_Official" name="Official">
+        <bpmn2:flowNodeRef>Task_CheckDocuments_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Gateway_DocumentsComplete_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_RegisterApplication_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_IssueCertificate_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_IssueProvisionalLicense_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_SendInfoToPolice_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>IntermediateCatchEvent_WaitForDocuments_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Gateway_DocumentsReceived_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>EndEvent_ApplicationTerminated_Process_DrivingLicenseRenewal</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+    </bpmn2:laneSet>
+    <bpmn2:startEvent id="StartEvent_ApplicationInitiated_Process_DrivingLicenseRenewal" name="Application initiated">
+      <bpmn2:outgoing>SequenceFlow_1_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:task id="Task_SubmitApplication_Process_DrivingLicenseRenewal" name="Submit application and documents">
+      <bpmn2:incoming>SequenceFlow_1_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_CheckDocuments_Process_DrivingLicenseRenewal" name="Check completeness and correctness of documents">
+      <bpmn2:incoming>SequenceFlow_2_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:exclusiveGateway id="Gateway_DocumentsComplete_Process_DrivingLicenseRenewal" name="Documents complete?" default="SequenceFlow_5_Process_DrivingLicenseRenewal">
+      <bpmn2:incoming>SequenceFlow_3_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_4_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_5_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:task id="Task_RegisterApplication_Process_DrivingLicenseRenewal" name="Register application">
+      <bpmn2:incoming>SequenceFlow_4_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_IssueCertificate_Process_DrivingLicenseRenewal" name="Issue Certificate of Submission">
+      <bpmn2:incoming>SequenceFlow_6_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_IssueProvisionalLicense_Process_DrivingLicenseRenewal" name="Issue provisional driving license (if applicable)">
+      <bpmn2:incoming>SequenceFlow_7_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal" name="Enter license in Driving License Register">
+      <bpmn2:incoming>SequenceFlow_9_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_10_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_SendInfoToPolice_Process_DrivingLicenseRenewal" name="Send information to Passport Directorate of Hellenic Police">
+      <bpmn2:incoming>SequenceFlow_10_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_11_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:endEvent id="EndEvent_LicenseReceived_Process_DrivingLicenseRenewal" name="Driving license received">
+      <bpmn2:incoming>SequenceFlow_12_Process_DrivingLicenseRenewal</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1_Process_DrivingLicenseRenewal" sourceRef="StartEvent_ApplicationInitiated_Process_DrivingLicenseRenewal" targetRef="Task_SubmitApplication_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_2_Process_DrivingLicenseRenewal" sourceRef="Task_SubmitApplication_Process_DrivingLicenseRenewal" targetRef="Task_CheckDocuments_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_3_Process_DrivingLicenseRenewal" sourceRef="Task_CheckDocuments_Process_DrivingLicenseRenewal" targetRef="Gateway_DocumentsComplete_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_4_Process_DrivingLicenseRenewal" name="Yes" sourceRef="Gateway_DocumentsComplete_Process_DrivingLicenseRenewal" targetRef="Task_RegisterApplication_Process_DrivingLicenseRenewal">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">documentsComplete == true</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_5_Process_DrivingLicenseRenewal" name="No" sourceRef="Gateway_DocumentsComplete_Process_DrivingLicenseRenewal" targetRef="IntermediateCatchEvent_WaitForDocuments_Process_DrivingLicenseRenewal">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">documentsComplete == false</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_6_Process_DrivingLicenseRenewal" sourceRef="Task_RegisterApplication_Process_DrivingLicenseRenewal" targetRef="Task_IssueCertificate_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_7_Process_DrivingLicenseRenewal" sourceRef="Task_IssueCertificate_Process_DrivingLicenseRenewal" targetRef="Task_IssueProvisionalLicense_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_8_Process_DrivingLicenseRenewal" sourceRef="Task_IssueProvisionalLicense_Process_DrivingLicenseRenewal" targetRef="Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_9_Process_DrivingLicenseRenewal" sourceRef="Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal" targetRef="Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_10_Process_DrivingLicenseRenewal" sourceRef="Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal" targetRef="Task_SendInfoToPolice_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_11_Process_DrivingLicenseRenewal" sourceRef="Task_SendInfoToPolice_Process_DrivingLicenseRenewal" targetRef="Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal" />
+    <bpmn2:sequenceFlow id="SequenceFlow_12_Process_DrivingLicenseRenewal" sourceRef="Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal" targetRef="EndEvent_LicenseReceived_Process_DrivingLicenseRenewal" />
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_WaitForDocuments_Process_DrivingLicenseRenewal" name="Wait for documents">
+      <bpmn2:incoming>SequenceFlow_5_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_13_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition id="TimerEventDefinition_04y999q">
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">P15D</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_13_Process_DrivingLicenseRenewal" sourceRef="IntermediateCatchEvent_WaitForDocuments_Process_DrivingLicenseRenewal" targetRef="Gateway_DocumentsReceived_Process_DrivingLicenseRenewal" />
+    <bpmn2:exclusiveGateway id="Gateway_DocumentsReceived_Process_DrivingLicenseRenewal" name="Documents received?" default="SequenceFlow_15_Process_DrivingLicenseRenewal">
+      <bpmn2:incoming>SequenceFlow_13_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_14_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_15_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="SequenceFlow_14_Process_DrivingLicenseRenewal" name="Yes" sourceRef="Gateway_DocumentsReceived_Process_DrivingLicenseRenewal" targetRef="Task_CheckDocuments_Process_DrivingLicenseRenewal">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">documentsReceived == true</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:endEvent id="EndEvent_ApplicationTerminated_Process_DrivingLicenseRenewal" name="Application terminated">
+      <bpmn2:incoming>SequenceFlow_15_Process_DrivingLicenseRenewal</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_15_Process_DrivingLicenseRenewal" name="No" sourceRef="Gateway_DocumentsReceived_Process_DrivingLicenseRenewal" targetRef="EndEvent_ApplicationTerminated_Process_DrivingLicenseRenewal">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">documentsReceived == false</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:task id="Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal" name="Collect driving license">
+      <bpmn2:incoming>SequenceFlow_11_Process_DrivingLicenseRenewal</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12_Process_DrivingLicenseRenewal</bpmn2:outgoing>
+    </bpmn2:task>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0w4q03w">
+      <bpmndi:BPMNShape id="_BPMNShape_Participant_Applicant" bpmnElement="Participant_Applicant" isHorizontal="true">
+        <dc:Bounds x="50" y="50" width="1716" height="445" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lane_Official_di" bpmnElement="Lane_Official" isHorizontal="true">
+        <dc:Bounds x="80" y="210" width="1686" height="285" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lane_Applicant_di" bpmnElement="Lane_Applicant" isHorizontal="true">
+        <dc:Bounds x="80" y="50" width="1686" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_ApplicationInitiated_Process_DrivingLicenseRenewal_di" bpmnElement="StartEvent_ApplicationInitiated_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="137" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SubmitApplication_Process_DrivingLicenseRenewal_di" bpmnElement="Task_SubmitApplication_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="255" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CheckDocuments_Process_DrivingLicenseRenewal_di" bpmnElement="Task_CheckDocuments_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="405" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_DocumentsComplete_Process_DrivingLicenseRenewal_di" bpmnElement="Gateway_DocumentsComplete_Process_DrivingLicenseRenewal" isMarkerVisible="true">
+        <dc:Bounds x="580" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RegisterApplication_Process_DrivingLicenseRenewal_di" bpmnElement="Task_RegisterApplication_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="705" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_IssueCertificate_Process_DrivingLicenseRenewal_di" bpmnElement="Task_IssueCertificate_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="855" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_IssueProvisionalLicense_Process_DrivingLicenseRenewal_di" bpmnElement="Task_IssueProvisionalLicense_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="1005" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal_di" bpmnElement="Task_EnterLicenseInRegister_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="1155" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendInfoToPolice_Process_DrivingLicenseRenewal_di" bpmnElement="Task_SendInfoToPolice_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="1305" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_LicenseReceived_Process_DrivingLicenseRenewal_di" bpmnElement="EndEvent_LicenseReceived_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="1637" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_WaitForDocuments_Process_DrivingLicenseRenewal_di" bpmnElement="IntermediateCatchEvent_WaitForDocuments_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="737" y="412" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_DocumentsReceived_Process_DrivingLicenseRenewal_di" bpmnElement="Gateway_DocumentsReceived_Process_DrivingLicenseRenewal" isMarkerVisible="true">
+        <dc:Bounds x="880" y="405" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_ApplicationTerminated_Process_DrivingLicenseRenewal_di" bpmnElement="EndEvent_ApplicationTerminated_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="1037" y="412" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal_di" bpmnElement="Task_CollectProvisionalLicense_Process_DrivingLicenseRenewal">
+        <dc:Bounds x="1455" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_1_Process_DrivingLicenseRenewal">
+        <di:waypoint x="173" y="130" />
+        <di:waypoint x="255" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_2_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_2_Process_DrivingLicenseRenewal">
+        <di:waypoint x="355" y="130" />
+        <di:waypoint x="380" y="130" />
+        <di:waypoint x="380" y="290" />
+        <di:waypoint x="405" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_3_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_3_Process_DrivingLicenseRenewal">
+        <di:waypoint x="505" y="290" />
+        <di:waypoint x="580" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_4_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_4_Process_DrivingLicenseRenewal">
+        <di:waypoint x="630" y="290" />
+        <di:waypoint x="705" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_5_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_5_Process_DrivingLicenseRenewal">
+        <di:waypoint x="630" y="290" />
+        <di:waypoint x="683.5" y="290" />
+        <di:waypoint x="683.5" y="430" />
+        <di:waypoint x="737" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_6_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_6_Process_DrivingLicenseRenewal">
+        <di:waypoint x="805" y="290" />
+        <di:waypoint x="855" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_7_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_7_Process_DrivingLicenseRenewal">
+        <di:waypoint x="955" y="290" />
+        <di:waypoint x="1005" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_8_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_8_Process_DrivingLicenseRenewal">
+        <di:waypoint x="1105" y="290" />
+        <di:waypoint x="1155" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_10_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_10_Process_DrivingLicenseRenewal">
+        <di:waypoint x="1255" y="290" />
+        <di:waypoint x="1305" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_11_Process_DrivingLicenseRenewal">
+        <di:waypoint x="1405" y="290" />
+        <di:waypoint x="1430" y="290" />
+        <di:waypoint x="1430" y="130" />
+        <di:waypoint x="1455" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_12_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_12_Process_DrivingLicenseRenewal">
+        <di:waypoint x="1555" y="130" />
+        <di:waypoint x="1637" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_13_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_13_Process_DrivingLicenseRenewal">
+        <di:waypoint x="773" y="430" />
+        <di:waypoint x="880" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_14_Process_DrivingLicenseRenewal">
+        <di:waypoint x="930" y="430" />
+        <di:waypoint x="667.5" y="430" />
+        <di:waypoint x="667.5" y="290" />
+        <di:waypoint x="405" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_15_Process_DrivingLicenseRenewal_di" bpmnElement="SequenceFlow_15_Process_DrivingLicenseRenewal">
+        <di:waypoint x="930" y="430" />
+        <di:waypoint x="1037" y="430" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

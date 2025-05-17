@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0o3sw0k" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn2:collaboration id="Collaboration_19v3zi1">
+    <bpmn2:participant id="Participant_TCS" name="Driving License Issuance Process&#10;Transport and Communications Service" processRef="Process_DrivingLicense" />
+  </bpmn2:collaboration>
+  <bpmn2:process id="Process_DrivingLicense" name="Driving License Issuance Process" isExecutable="true">
+    <bpmn2:laneSet id="LaneSet_19eynel">
+      <bpmn2:lane id="Lane_Applicant" name="Applicant">
+        <bpmn2:flowNodeRef>StartEvent_ApplicationSubmitted_DrivingLicense</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="Lane_TCSOfficial" name="TCS Official">
+        <bpmn2:flowNodeRef>Task_CheckDocuments_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Gateway_OmissionsIdentified_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_InformApplicant_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_RegisterApplication_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_IssueCertificate_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_ProvideProvisionalLicense_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_IssueDrivingLicense_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>Task_TransmitApplicationData_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>EndEvent_ProcessTerminated_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>IntermediateCatchEvent_MissingDocumentsReceived_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>BoundaryEvent_Timer_DrivingLicense</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>IntermediateThrowEvent_ReminderSent_DrivingLicense</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="Lane_ApplicantReceives" name="Applicant Receives">
+        <bpmn2:flowNodeRef>EndEvent_LicenseReceived_DrivingLicense</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+    </bpmn2:laneSet>
+    <bpmn2:startEvent id="StartEvent_ApplicationSubmitted_DrivingLicense" name="Application Submitted">
+      <bpmn2:outgoing>SequenceFlow_1_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:task id="Task_CheckDocuments_DrivingLicense" name="Check Documents">
+      <bpmn2:incoming>SequenceFlow_1_DrivingLicense</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_7_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:exclusiveGateway id="Gateway_OmissionsIdentified_DrivingLicense" name="Omissions Identified?" default="SequenceFlow_4_DrivingLicense">
+      <bpmn2:incoming>SequenceFlow_2_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3_DrivingLicense</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_4_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:task id="Task_InformApplicant_DrivingLicense" name="Inform Applicant">
+      <bpmn2:incoming>SequenceFlow_3_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_MissingDocumentsReceived_DrivingLicense" name="Missing Documents Received">
+      <bpmn2:incoming>SequenceFlow_6_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7_DrivingLicense</bpmn2:outgoing>
+      <bpmn2:eventDefinition />
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:task id="Task_RegisterApplication_DrivingLicense" name="Register Application">
+      <bpmn2:incoming>SequenceFlow_4_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_IssueCertificate_DrivingLicense" name="Issue Certificate">
+      <bpmn2:incoming>SequenceFlow_8_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_9_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_ProvideProvisionalLicense_DrivingLicense" name="Provide Provisional License">
+      <bpmn2:incoming>SequenceFlow_9_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_10_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_IssueDrivingLicense_DrivingLicense" name="Issue Driving License">
+      <bpmn2:incoming>SequenceFlow_10_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_11_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:task id="Task_TransmitApplicationData_DrivingLicense" name="Transmit Application Data">
+      <bpmn2:incoming>SequenceFlow_11_DrivingLicense</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12_DrivingLicense</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:endEvent id="EndEvent_LicenseReceived_DrivingLicense" name="License Received">
+      <bpmn2:incoming>SequenceFlow_12_DrivingLicense</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1_DrivingLicense" sourceRef="StartEvent_ApplicationSubmitted_DrivingLicense" targetRef="Task_CheckDocuments_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_2_DrivingLicense" sourceRef="Task_CheckDocuments_DrivingLicense" targetRef="Gateway_OmissionsIdentified_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_3_DrivingLicense" name="Yes" sourceRef="Gateway_OmissionsIdentified_DrivingLicense" targetRef="Task_InformApplicant_DrivingLicense">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">omissionsIdentified == true</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_4_DrivingLicense" name="No" sourceRef="Gateway_OmissionsIdentified_DrivingLicense" targetRef="Task_RegisterApplication_DrivingLicense">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">omissionsIdentified == false</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_5_DrivingLicense" sourceRef="Task_InformApplicant_DrivingLicense" targetRef="IntermediateCatchEvent_MissingDocumentsReceived_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_6_DrivingLicense" sourceRef="BoundaryEvent_Timer_DrivingLicense" targetRef="EndEvent_ProcessTerminated_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_7_DrivingLicense" sourceRef="IntermediateCatchEvent_MissingDocumentsReceived_DrivingLicense" targetRef="Task_CheckDocuments_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_8_DrivingLicense" sourceRef="Task_RegisterApplication_DrivingLicense" targetRef="Task_IssueCertificate_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_9_DrivingLicense" sourceRef="Task_IssueCertificate_DrivingLicense" targetRef="Task_ProvideProvisionalLicense_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_10_DrivingLicense" sourceRef="Task_ProvideProvisionalLicense_DrivingLicense" targetRef="Task_IssueDrivingLicense_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_11_DrivingLicense" sourceRef="Task_IssueDrivingLicense_DrivingLicense" targetRef="Task_TransmitApplicationData_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_12_DrivingLicense" sourceRef="Task_TransmitApplicationData_DrivingLicense" targetRef="EndEvent_LicenseReceived_DrivingLicense" />
+    <bpmn2:boundaryEvent id="BoundaryEvent_Timer_DrivingLicense" attachedToRef="Task_InformApplicant_DrivingLicense">
+      <bpmn2:outgoing>SequenceFlow_6_DrivingLicense</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>P15D</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    <bpmn2:endEvent id="EndEvent_ProcessTerminated_DrivingLicense" name="Process Terminated">
+      <bpmn2:incoming>SequenceFlow_6_DrivingLicense</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:intermediateThrowEvent id="IntermediateThrowEvent_ReminderSent_DrivingLicense" name="Reminder Sent">
+      <bpmn2:incoming>SequenceFlow_13_DrivingLicense</bpmn2:incoming>
+      <bpmn2:timerEventDefinition />
+    </bpmn2:intermediateThrowEvent>
+    <bpmn2:boundaryEvent id="BoundaryEvent_TimerIssue_DrivingLicense" attachedToRef="Task_IssueDrivingLicense_DrivingLicense">
+      <bpmn2:outgoing>SequenceFlow_14_DrivingLicense</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition>
+        <bpmn2:timeDuration>P5D</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:boundaryEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_13_DrivingLicense" sourceRef="BoundaryEvent_TimerIssue_DrivingLicense" targetRef="IntermediateThrowEvent_ReminderSent_DrivingLicense" />
+    <bpmn2:sequenceFlow id="SequenceFlow_14_DrivingLicense" sourceRef="BoundaryEvent_TimerIssue_DrivingLicense" targetRef="Task_IssueDrivingLicense_DrivingLicense" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_19v3zi1">
+      <bpmndi:BPMNShape id="_BPMNShape_Participant_TCS" bpmnElement="Participant_TCS" isHorizontal="true">
+        <dc:Bounds x="50" y="50" width="1416" height="672" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lane_ApplicantReceives_di" bpmnElement="Lane_ApplicantReceives" isHorizontal="true">
+        <dc:Bounds x="80" y="606" width="1386" height="116" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lane_TCSOfficial_di" bpmnElement="Lane_TCSOfficial" isHorizontal="true">
+        <dc:Bounds x="80" y="166" width="1386" height="440" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Lane_Applicant_di" bpmnElement="Lane_Applicant" isHorizontal="true">
+        <dc:Bounds x="80" y="50" width="1386" height="116" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_ApplicationSubmitted_DrivingLicense_di" bpmnElement="StartEvent_ApplicationSubmitted_DrivingLicense">
+        <dc:Bounds x="137" y="90" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_CheckDocuments_DrivingLicense_di" bpmnElement="Task_CheckDocuments_DrivingLicense">
+        <dc:Bounds x="255" y="206" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_OmissionsIdentified_DrivingLicense_di" bpmnElement="Gateway_OmissionsIdentified_DrivingLicense" isMarkerVisible="true">
+        <dc:Bounds x="430" y="221" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_InformApplicant_DrivingLicense_di" bpmnElement="Task_InformApplicant_DrivingLicense">
+        <dc:Bounds x="555" y="206" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_MissingDocumentsReceived_DrivingLicense_di" bpmnElement="IntermediateCatchEvent_MissingDocumentsReceived_DrivingLicense">
+        <dc:Bounds x="737" y="228" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_RegisterApplication_DrivingLicense_di" bpmnElement="Task_RegisterApplication_DrivingLicense">
+        <dc:Bounds x="555" y="486" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_IssueCertificate_DrivingLicense_di" bpmnElement="Task_IssueCertificate_DrivingLicense">
+        <dc:Bounds x="705" y="486" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ProvideProvisionalLicense_DrivingLicense_di" bpmnElement="Task_ProvideProvisionalLicense_DrivingLicense">
+        <dc:Bounds x="855" y="486" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_IssueDrivingLicense_DrivingLicense_di" bpmnElement="Task_IssueDrivingLicense_DrivingLicense">
+        <dc:Bounds x="1005" y="486" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_TransmitApplicationData_DrivingLicense_di" bpmnElement="Task_TransmitApplicationData_DrivingLicense">
+        <dc:Bounds x="1155" y="486" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_LicenseReceived_DrivingLicense_di" bpmnElement="EndEvent_LicenseReceived_DrivingLicense">
+        <dc:Bounds x="1337" y="646" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_ProcessTerminated_DrivingLicense_di" bpmnElement="EndEvent_ProcessTerminated_DrivingLicense">
+        <dc:Bounds x="737" y="368" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_Timer_DrivingLicense_di" bpmnElement="BoundaryEvent_Timer_DrivingLicense">
+        <dc:Bounds x="587" y="268" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1_DrivingLicense_di" bpmnElement="SequenceFlow_1_DrivingLicense">
+        <di:waypoint x="173" y="108" />
+        <di:waypoint x="214" y="108" />
+        <di:waypoint x="214" y="246" />
+        <di:waypoint x="255" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_2_DrivingLicense_di" bpmnElement="SequenceFlow_2_DrivingLicense">
+        <di:waypoint x="355" y="246" />
+        <di:waypoint x="430" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_3_DrivingLicense_di" bpmnElement="SequenceFlow_3_DrivingLicense">
+        <di:waypoint x="480" y="246" />
+        <di:waypoint x="555" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_4_DrivingLicense_di" bpmnElement="SequenceFlow_4_DrivingLicense">
+        <di:waypoint x="480" y="246" />
+        <di:waypoint x="517.5" y="246" />
+        <di:waypoint x="517.5" y="526" />
+        <di:waypoint x="555" y="526" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_5_DrivingLicense_di" bpmnElement="SequenceFlow_5_DrivingLicense">
+        <di:waypoint x="655" y="246" />
+        <di:waypoint x="737" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_6_DrivingLicense_di" bpmnElement="SequenceFlow_6_DrivingLicense">
+        <di:waypoint x="623" y="286" />
+        <di:waypoint x="680" y="286" />
+        <di:waypoint x="680" y="386" />
+        <di:waypoint x="737" y="386" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_7_DrivingLicense_di" bpmnElement="SequenceFlow_7_DrivingLicense">
+        <di:waypoint x="773" y="246" />
+        <di:waypoint x="255" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_8_DrivingLicense_di" bpmnElement="SequenceFlow_8_DrivingLicense">
+        <di:waypoint x="655" y="526" />
+        <di:waypoint x="705" y="526" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_9_DrivingLicense_di" bpmnElement="SequenceFlow_9_DrivingLicense">
+        <di:waypoint x="805" y="526" />
+        <di:waypoint x="855" y="526" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_10_DrivingLicense_di" bpmnElement="SequenceFlow_10_DrivingLicense">
+        <di:waypoint x="955" y="526" />
+        <di:waypoint x="1005" y="526" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11_DrivingLicense_di" bpmnElement="SequenceFlow_11_DrivingLicense">
+        <di:waypoint x="1105" y="526" />
+        <di:waypoint x="1155" y="526" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_12_DrivingLicense_di" bpmnElement="SequenceFlow_12_DrivingLicense">
+        <di:waypoint x="1255" y="526" />
+        <di:waypoint x="1296" y="526" />
+        <di:waypoint x="1296" y="664" />
+        <di:waypoint x="1337" y="664" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
