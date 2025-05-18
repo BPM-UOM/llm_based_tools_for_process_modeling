@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" targetNamespace="http://org.openbpmn" exporter="Camunda Web Modeler" exporterVersion="b46fab0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.7.0">
+  <semantic:process id="process_1" name="Default Process" processType="Public" isExecutable="false">
+    <semantic:startEvent id="license-renewal-not-initiated" name="License renewal not initiated ">
+      <semantic:outgoing>sq-0</semantic:outgoing>
+    </semantic:startEvent>
+    <semantic:userTask id="initiate-renewal" name="Initiate renewal " expand="true">
+      <semantic:incoming>sq-0</semantic:incoming>
+      <semantic:outgoing>sq-1</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:sequenceFlow id="sq-0" sourceRef="license-renewal-not-initiated" targetRef="initiate-renewal" />
+    <semantic:userTask id="receive-application" name="Receive application " expand="true">
+      <semantic:incoming>sq-1</semantic:incoming>
+      <semantic:outgoing>sq-30</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:sequenceFlow id="sq-1" sourceRef="initiate-renewal" targetRef="receive-application" />
+    <semantic:userTask id="check-documents" name="Check documents " expand="true">
+      <semantic:incoming>sq-31</semantic:incoming>
+      <semantic:outgoing>sq-23</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:userTask id="register-application" name="Register application " expand="true">
+      <semantic:incoming>sq-24</semantic:incoming>
+      <semantic:outgoing>sq-4</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:userTask id="issue-certificate-of-submission" name="Issue certificate of submission " expand="true">
+      <semantic:incoming>sq-4</semantic:incoming>
+      <semantic:outgoing>sq-20</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:sequenceFlow id="sq-4" sourceRef="register-application" targetRef="issue-certificate-of-submission" />
+    <semantic:serviceTask id="make-electronic-entry" name="Make electronic entry " expand="true">
+      <semantic:incoming>sq-21</semantic:incoming>
+      <semantic:outgoing>sq-17</semantic:outgoing>
+    </semantic:serviceTask>
+    <semantic:serviceTask id="send-information-electronically" name="Send information electronically " expand="true">
+      <semantic:incoming>sq-18</semantic:incoming>
+      <semantic:outgoing>sq-7</semantic:outgoing>
+    </semantic:serviceTask>
+    <semantic:serviceTask id="send-print-application" name="Send print application " expand="true">
+      <semantic:incoming>sq-7</semantic:incoming>
+      <semantic:outgoing>sq-8</semantic:outgoing>
+    </semantic:serviceTask>
+    <semantic:sequenceFlow id="sq-7" sourceRef="send-information-electronically" targetRef="send-print-application" />
+    <semantic:userTask id="receive-driving-license" name="Receive driving license " expand="true">
+      <semantic:incoming>sq-8</semantic:incoming>
+      <semantic:outgoing>sq-11</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:sequenceFlow id="sq-8" sourceRef="send-print-application" targetRef="receive-driving-license" />
+    <semantic:userTask id="present-identity-card-or-passport" name="Present identity card or passport " expand="true">
+      <semantic:incoming>sq-12</semantic:incoming>
+      <semantic:outgoing>sq-15</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:endEvent id="license-received" name=" License received">
+      <semantic:incoming>sq-16</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:userTask id="surrender-old-driver-s-license" name="Surrender old driver&#39;s license " expand="true">
+      <semantic:incoming>sq-13</semantic:incoming>
+      <semantic:outgoing>sq-14</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:parallelGateway id="gt-0" name="" gatewayDirection="Diverging" num="4">
+      <semantic:incoming>sq-11</semantic:incoming>
+      <semantic:outgoing>sq-12</semantic:outgoing>
+      <semantic:outgoing>sq-13</semantic:outgoing>
+    </semantic:parallelGateway>
+    <semantic:sequenceFlow id="sq-11" sourceRef="receive-driving-license" targetRef="gt-0" />
+    <semantic:sequenceFlow id="sq-12" sourceRef="gt-0" targetRef="present-identity-card-or-passport" />
+    <semantic:sequenceFlow id="sq-13" sourceRef="gt-0" targetRef="surrender-old-driver-s-license" />
+    <semantic:parallelGateway id="gt-1" name="" gatewayDirection="Diverging" num="4">
+      <semantic:incoming>sq-14</semantic:incoming>
+      <semantic:incoming>sq-15</semantic:incoming>
+      <semantic:outgoing>sq-16</semantic:outgoing>
+    </semantic:parallelGateway>
+    <semantic:sequenceFlow id="sq-14" sourceRef="surrender-old-driver-s-license" targetRef="gt-1" />
+    <semantic:sequenceFlow id="sq-15" sourceRef="present-identity-card-or-passport" targetRef="gt-1" />
+    <semantic:sequenceFlow id="sq-16" sourceRef="gt-1" targetRef="license-received" />
+    <semantic:serviceTask id="send-reminder" name=" Send reminder" expand="true">
+      <semantic:incoming>sq-19</semantic:incoming>
+    </semantic:serviceTask>
+    <semantic:parallelGateway id="gt-2" name="" gatewayDirection="Diverging" num="3">
+      <semantic:incoming>sq-17</semantic:incoming>
+      <semantic:outgoing>sq-18</semantic:outgoing>
+      <semantic:outgoing>sq-19</semantic:outgoing>
+    </semantic:parallelGateway>
+    <semantic:sequenceFlow id="sq-17" sourceRef="make-electronic-entry" targetRef="gt-2" />
+    <semantic:sequenceFlow id="sq-18" sourceRef="gt-2" targetRef="send-information-electronically" />
+    <semantic:sequenceFlow id="sq-19" sourceRef="gt-2" targetRef="send-reminder" />
+    <semantic:userTask id="issue-provisional-license" name=" Issue provisional license" expand="true">
+      <semantic:incoming>sq-22</semantic:incoming>
+    </semantic:userTask>
+    <semantic:parallelGateway id="gt-3" name="" gatewayDirection="Diverging" num="2">
+      <semantic:incoming>sq-20</semantic:incoming>
+      <semantic:outgoing>sq-21</semantic:outgoing>
+      <semantic:outgoing>sq-22</semantic:outgoing>
+    </semantic:parallelGateway>
+    <semantic:sequenceFlow id="sq-20" sourceRef="issue-certificate-of-submission" targetRef="gt-3" />
+    <semantic:sequenceFlow id="sq-21" sourceRef="gt-3" targetRef="make-electronic-entry" />
+    <semantic:sequenceFlow id="sq-22" sourceRef="gt-3" targetRef="issue-provisional-license" />
+    <semantic:userTask id="inform-applicant" name="Inform applicant " expand="true">
+      <semantic:incoming>sq-25</semantic:incoming>
+      <semantic:outgoing>sq-26</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:exclusiveGateway id="gt-4" name="" gatewayDirection="Diverging" num="1">
+      <semantic:incoming>sq-23</semantic:incoming>
+      <semantic:outgoing>sq-24</semantic:outgoing>
+      <semantic:outgoing>sq-25</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:sequenceFlow id="sq-23" sourceRef="check-documents" targetRef="gt-4" />
+    <semantic:sequenceFlow id="sq-24" sourceRef="gt-4" targetRef="register-application" />
+    <semantic:sequenceFlow id="sq-25" sourceRef="gt-4" targetRef="inform-applicant" />
+    <semantic:serviceTask id="wait-for-documents" name="Wait for documents " expand="true">
+      <semantic:incoming>sq-26</semantic:incoming>
+      <semantic:outgoing>sq-29</semantic:outgoing>
+    </semantic:serviceTask>
+    <semantic:sequenceFlow id="sq-26" sourceRef="inform-applicant" targetRef="wait-for-documents" />
+    <semantic:endEvent id="no-documents-received" name=" No documents received">
+      <semantic:incoming>sq-28</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:exclusiveGateway id="gt-5" name="" gatewayDirection="Diverging" num="-2">
+      <semantic:incoming>sq-29</semantic:incoming>
+      <semantic:outgoing>sq-28</semantic:outgoing>
+      <semantic:outgoing>sq-32</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:sequenceFlow id="sq-28" sourceRef="gt-5" targetRef="no-documents-received" />
+    <semantic:sequenceFlow id="sq-29" sourceRef="wait-for-documents" targetRef="gt-5" />
+    <semantic:exclusiveGateway id="gt-6" name="" gatewayDirection="Diverging" num="-2">
+      <semantic:incoming>sq-30</semantic:incoming>
+      <semantic:incoming>sq-32</semantic:incoming>
+      <semantic:outgoing>sq-31</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:sequenceFlow id="sq-30" sourceRef="receive-application" targetRef="gt-6" />
+    <semantic:sequenceFlow id="sq-31" sourceRef="gt-6" targetRef="check-documents" />
+    <semantic:sequenceFlow id="sq-32" sourceRef="gt-5" targetRef="gt-6" />
+  </semantic:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process_1">
+      <bpmndi:BPMNShape id="BPMNShape_license-renewal-not-initiated" bpmnElement="license-renewal-not-initiated">
+        <dc:Bounds x="185" y="695" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="160" y="740" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_initiate-renewal" bpmnElement="initiate-renewal">
+        <dc:Bounds x="340" y="680" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_receive-application" bpmnElement="receive-application">
+        <dc:Bounds x="540" y="680" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_check-documents" bpmnElement="check-documents">
+        <dc:Bounds x="940" y="480" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_register-application" bpmnElement="register-application">
+        <dc:Bounds x="1340" y="380" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_issue-certificate-of-submission" bpmnElement="issue-certificate-of-submission">
+        <dc:Bounds x="1540" y="380" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_make-electronic-entry" bpmnElement="make-electronic-entry">
+        <dc:Bounds x="1940" y="280" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_send-information-electronically" bpmnElement="send-information-electronically">
+        <dc:Bounds x="2340" y="180" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_send-print-application" bpmnElement="send-print-application">
+        <dc:Bounds x="2540" y="180" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_receive-driving-license" bpmnElement="receive-driving-license">
+        <dc:Bounds x="2740" y="180" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_present-identity-card-or-passport" bpmnElement="present-identity-card-or-passport">
+        <dc:Bounds x="3140" y="80" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_license-received" bpmnElement="license-received">
+        <dc:Bounds x="3585" y="195" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3559" y="240" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_surrender-old-driver-s-license" bpmnElement="surrender-old-driver-s-license">
+        <dc:Bounds x="3140" y="280" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-0" bpmnElement="gt-0">
+        <dc:Bounds x="2970" y="180" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2840" y="90" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-1" bpmnElement="gt-1">
+        <dc:Bounds x="3370" y="180" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3240" y="90" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_send-reminder" bpmnElement="send-reminder">
+        <dc:Bounds x="2340" y="380" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-2" bpmnElement="gt-2">
+        <dc:Bounds x="2170" y="280" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2040" y="190" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_issue-provisional-license" bpmnElement="issue-provisional-license">
+        <dc:Bounds x="1940" y="480" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-3" bpmnElement="gt-3">
+        <dc:Bounds x="1770" y="380" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1640" y="290" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_inform-applicant" bpmnElement="inform-applicant">
+        <dc:Bounds x="1340" y="580" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-4" bpmnElement="gt-4" isMarkerVisible="true">
+        <dc:Bounds x="1170" y="480" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1040" y="390" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_wait-for-documents" bpmnElement="wait-for-documents">
+        <dc:Bounds x="1540" y="580" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_no-documents-received" bpmnElement="no-documents-received">
+        <dc:Bounds x="1985" y="695" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1958" y="740" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-5" bpmnElement="gt-5" isMarkerVisible="true">
+        <dc:Bounds x="1770" y="680" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1640" y="590" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_gt-6" bpmnElement="gt-6" isMarkerVisible="true">
+        <dc:Bounds x="770" y="680" width="60" height="60" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="640" y="590" width="60" height="60" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-0" bpmnElement="sq-0">
+        <di:waypoint x="215" y="710" />
+        <di:waypoint x="340" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-1" bpmnElement="sq-1">
+        <di:waypoint x="460" y="710" />
+        <di:waypoint x="540" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-30" bpmnElement="sq-30">
+        <di:waypoint x="660" y="710" />
+        <di:waypoint x="770" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-31" bpmnElement="sq-31">
+        <di:waypoint x="800" y="680" />
+        <di:waypoint x="800" y="510" />
+        <di:waypoint x="940" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-23" bpmnElement="sq-23">
+        <di:waypoint x="1060" y="510" />
+        <di:waypoint x="1170" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-24" bpmnElement="sq-24">
+        <di:waypoint x="1200" y="480" />
+        <di:waypoint x="1200" y="410" />
+        <di:waypoint x="1340" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-4" bpmnElement="sq-4">
+        <di:waypoint x="1460" y="410" />
+        <di:waypoint x="1540" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-20" bpmnElement="sq-20">
+        <di:waypoint x="1660" y="410" />
+        <di:waypoint x="1770" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-21" bpmnElement="sq-21">
+        <di:waypoint x="1800" y="380" />
+        <di:waypoint x="1800" y="310" />
+        <di:waypoint x="1940" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-17" bpmnElement="sq-17">
+        <di:waypoint x="2060" y="310" />
+        <di:waypoint x="2170" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-18" bpmnElement="sq-18">
+        <di:waypoint x="2200" y="280" />
+        <di:waypoint x="2200" y="210" />
+        <di:waypoint x="2340" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-7" bpmnElement="sq-7">
+        <di:waypoint x="2460" y="210" />
+        <di:waypoint x="2540" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-8" bpmnElement="sq-8">
+        <di:waypoint x="2660" y="210" />
+        <di:waypoint x="2740" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-11" bpmnElement="sq-11">
+        <di:waypoint x="2860" y="210" />
+        <di:waypoint x="2970" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-12" bpmnElement="sq-12">
+        <di:waypoint x="3000" y="180" />
+        <di:waypoint x="3000" y="110" />
+        <di:waypoint x="3140" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-15" bpmnElement="sq-15">
+        <di:waypoint x="3260" y="110" />
+        <di:waypoint x="3400" y="110" />
+        <di:waypoint x="3400" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-16" bpmnElement="sq-16">
+        <di:waypoint x="3430" y="210" />
+        <di:waypoint x="3585" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-13" bpmnElement="sq-13">
+        <di:waypoint x="3000" y="240" />
+        <di:waypoint x="3000" y="310" />
+        <di:waypoint x="3140" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-14" bpmnElement="sq-14">
+        <di:waypoint x="3260" y="310" />
+        <di:waypoint x="3400" y="310" />
+        <di:waypoint x="3400" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-19" bpmnElement="sq-19">
+        <di:waypoint x="2200" y="340" />
+        <di:waypoint x="2200" y="410" />
+        <di:waypoint x="2340" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-22" bpmnElement="sq-22">
+        <di:waypoint x="1800" y="440" />
+        <di:waypoint x="1800" y="510" />
+        <di:waypoint x="1940" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-25" bpmnElement="sq-25">
+        <di:waypoint x="1200" y="540" />
+        <di:waypoint x="1200" y="610" />
+        <di:waypoint x="1340" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-26" bpmnElement="sq-26">
+        <di:waypoint x="1460" y="610" />
+        <di:waypoint x="1540" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-29" bpmnElement="sq-29">
+        <di:waypoint x="1660" y="610" />
+        <di:waypoint x="1800" y="610" />
+        <di:waypoint x="1800" y="680" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-28" bpmnElement="sq-28">
+        <di:waypoint x="1830" y="710" />
+        <di:waypoint x="1985" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sq-32" bpmnElement="sq-32">
+        <di:waypoint x="1770" y="710" />
+        <di:waypoint x="830" y="710" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</semantic:definitions>
